@@ -8,7 +8,23 @@ import logo from '../assets/logo.png';
 const Login = () => {
 
   const responseGoogle= (response) => {
-    
+    // console.log(response);  // Check if the the google is open a Google Authenticator window
+
+    //Store the account data on local storage
+    localStorage.setItem('user', JSON.stringify(response.profileObj));
+
+    //Take a some properties from Google account
+    const {name, googleId, imageUrl } = response.profileObj
+
+    //Create a new User Sanity Document (User schema)
+    const doc = {
+      _id: googleId,
+      _type: 'user',
+      userName: name,
+      image: imageUrl
+    }
+
+
   }
 
   return (
@@ -19,12 +35,12 @@ const Login = () => {
           src={feedVideo}
           type="video/mp4"
           loop
-          controls={false}                      ///For no controlers on video
+          controls={false}                      ///For no controllers on video
           muted
           autoPlay  
-          className='w-full h-full object-cover' /// Video is change a size by brawser size auto-size-change
+          className='w-full h-full object-cover' /// Video is change a size by browser size auto-size-change
         />
-        <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay"> {/*/ The black lavel above a video*/}
+        <div className="absolute flex flex-col justify-center items-center top-0 right-0 left-0 bottom-0 bg-blackOverlay"> {/*/ The black level above a video*/}
                   
           {/*LOGO div */}
           <div className="p-5">
@@ -34,7 +50,7 @@ const Login = () => {
           {/* Google Authenticator div */}
           <div className="shadow-2xl">
             <GoogleLogin
-              clientId=''
+              clientId={process.env.REACT_APP_GOOGLE_API_TOKEN}
               render={(renderProps) => (            //callback function for a Sign In button
                 <button
                   type="button"
@@ -46,7 +62,7 @@ const Login = () => {
                 </button>
               )}
               onSuccess={responseGoogle}      //if login is SUCCESS call the responseGoogle() function
-              onFailure={responseGoogle}      //if login is FAILD call the responseGoogle() function
+              onFailure={responseGoogle}      //if login is FAILED call the responseGoogle() function
               cookiePolicy="single_host_origin"
             />
           </div>
