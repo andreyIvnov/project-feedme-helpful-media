@@ -1,29 +1,48 @@
 import React from 'react'
 import GoogleLogin from 'react-google-login'
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import {FcGoogle} from 'react-icons/fc'
 import feedVideo from '../assets/feed.mp4'
 import logo from '../assets/logo.png';
 
+import { client } from '../client';
+
 const Login = () => {
+  const navigate = useNavigate();
 
   const responseGoogle= (response) => {
-    // console.log(response);  // Check if the the google is open a Google Authenticator window
 
+    
+
+    // console.log(response.profileObj);  // Check if the the google is open a Google Authenticator window
+
+    
+    
     //Store the account data on local storage
     localStorage.setItem('user', JSON.stringify(response.profileObj));
 
+    
+    
     //Take a some properties from Google account
     const {name, googleId, imageUrl } = response.profileObj
 
+    
+    
     //Create a new User Sanity Document (User schema)
     const doc = {
       _id: googleId,
       _type: 'user',
       userName: name,
-      image: imageUrl
+      image: imageUrl,
+      location: 'Im Here'
     }
-
+    
+    
+    
+    client.createIfNotExists(doc)
+      .then(() => {
+        navigate('/',{replace : true})  //If the Response Google is successful is navigate as to home page (localhost:3000)
+      })
 
   }
 
