@@ -1,5 +1,6 @@
 import React from 'react'
 import GoogleLogin from 'react-google-login'
+// import FacebookLogin from 'react-facebook-login'
 import { useNavigate } from 'react-router-dom';
 import {FcGoogle} from 'react-icons/fc'
 import feedVideo from '../assets/feed.mp4'
@@ -26,8 +27,6 @@ const Login = () => {
     //Take a some properties from Google account
     const {name, googleId, imageUrl } = response.profileObj
 
-    
-    
     //Create a new User Sanity Document (User schema)
     const doc = {
       _id: googleId,
@@ -44,6 +43,10 @@ const Login = () => {
         navigate('/',{replace : true})  //If the Response Google is successful is navigate as to home page (localhost:3000)
       })
 
+  }
+
+  const responseFacebook = (response) => {
+    console.log(response);
   }
 
   return (
@@ -84,6 +87,7 @@ const Login = () => {
               onFailure={responseGoogle}      //if login is FAILED call the responseGoogle() function
               cookiePolicy="single_host_origin"
             />
+
           </div>
 
         </div>
