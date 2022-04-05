@@ -15,11 +15,12 @@ import logo from '../assets/logo.png'
 
 const Home = () => {
   
+  //Hooks
   const [toggleSidebar, setToggleSidebar] = useState(false)
   const [user, setUser] = useState(null)
+  const scrollRef = useRef(null);
 
-  
-  //Here we get user information but not the user 
+  //Get user information from local storage but not the user 
   const userInfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear() //get the user and PARSE them if they not get it may be something wrong and clear the local storage
 
   //Gone getting the user from SANITY by using the useEffect
@@ -32,26 +33,60 @@ const Home = () => {
       })
   }, []);
   
+  //
+  useEffect(() => {
+    scrollRef.current.scrollTo(0, 0)
+  }, [])
+  
 
 
   return (
     <div className="flex bg-gray-50 md:flex-row flex-col h-screen transition-height duration-75 ease-out">
       
       <div className="hidden md:flex h-screen flex-initial">
-        <Sidebar/>
+        {/* Mobile SideBar */}
+        <Sidebar user={user && user}/>
       </div>
 
       <div className="flex md:hidden flex-row">
-        <HiMenu fontSize={40} className="cursor-pointer" onClick={ ()=> setToggleSidebar(false)}/>
         
+        {/* Menu button */}
+        <HiMenu fontSize={40} className="cursor-pointer" onClick={ ()=> setToggleSidebar(true)}/>
+        
+        {/* Logo button/icon */}
         <Link to="/">
           <img src={logo} alt="logo" className="w-28"/>
         </Link>
         
+        {/* User profile image button/icon */}
         <Link to={`user-profile/${user?._id}`}>
           <img src={user?.image} alt="logo" className="w-28"/>
         </Link>
 
+      </div>
+
+      {/* Open / Close sideBar*/}
+      {toggleSidebar && (
+        <div className="fixed w-4/5 bg-white h-screen overflow-y-auto shadow-md z-10 animate-slide-in"> 
+          
+          <div className='absolute w-full flex justify-and items-center p-2'>
+            <AiFillCloseCircle fontSize={30} className="cursor-pointer" onClick={() => setToggleSidebar(false)} />
+          </div>
+          
+          {/* Desktop SideBar  */}
+          <Sidebar user={user && user} closeToggle={setToggleSidebar}/>
+      
+        </div>
+      )}
+
+      <div className="pb-2 flex-1 h-screen overflow-y-scroll" ref={scrollRef}>
+        <Routes>
+
+          <Route path='/user-profile/:userId' element={<UserProfile/>}/>
+
+          <Route path='/*' element={<Pins user={user && user}/>}/>
+
+        </Routes>
       </div>
 
     </div>
