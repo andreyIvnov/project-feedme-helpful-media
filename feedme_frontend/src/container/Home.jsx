@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';          
 import { HiMenu } from 'react-icons/hi';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { Link, Route, Routes } from 'react-router-dom'
+import { Link, Route, Routes } from 'react-router-dom'                                                   
 
 // import Sidebar from '../components/Sidebar';
 // import UserProfile from '../components/UserProfile';
@@ -89,7 +89,8 @@ const Home = () => {
 
           <Route path='/user-profile/:userId' element={<UserProfile />} />
 
-          <Route path='/*' element={<Pins user={user && user} />} />
+          <Route path='/*' element={<Pins user={user && user} />} />        {/* Passing a user data to a pins container */}
+         
 
         </Routes>
       </div>
