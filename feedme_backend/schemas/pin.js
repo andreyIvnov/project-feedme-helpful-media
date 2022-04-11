@@ -24,6 +24,11 @@ export default {
             type:'string',
         },
         {
+            name:'location',
+            title: 'Location',
+            type: 'string'
+        },
+        {
             name:'image',
             title:'Image',
             type:'image',

@@ -12,7 +12,7 @@ const Pins = ({ user}) => {
     <div className='px-2 md:px-5'>
 
       <div className='bg-gray-50'>
-        <Navbar searchTherm={searchTherm} setSearchTherm={setSearchTherm} />
+        <Navbar searchTherm={searchTherm} setSearchTherm={setSearchTherm} user={user}/>
       </div>
 
       <div className='h-full'>

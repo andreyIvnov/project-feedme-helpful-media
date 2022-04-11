@@ -33,7 +33,6 @@ const Login = () => {
       _type: 'user',
       userName: name,
       image: imageUrl,
-      location: 'Im Here'
     }
     
     
