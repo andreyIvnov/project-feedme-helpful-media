@@ -13,10 +13,6 @@ export default {
             title: 'Image',
             type: 'string'
         },
-        {
-            name:'location',
-            title: 'Location',
-            type: 'string'
-        }
+
     ]
 }
