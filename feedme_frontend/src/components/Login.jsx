@@ -44,9 +44,9 @@ const Login = () => {
 
   }
 
-  const responseFacebook = (response) => {
-    console.log(response);
-  }
+  // const responseFacebook = (response) => {
+  //   console.log(response);
+  // }
 
   return (
     //Video on a backGround
