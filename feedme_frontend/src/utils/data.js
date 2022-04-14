@@ -3,4 +3,32 @@ export const userQuery = (userId) => {
 
       return query;
 }
+
+export const searchQuery = (searchTerm) => {
+      const query = `*[_type == "pin" && title match '${searchTerm}*' || category match '${searchTerm}*' || about match '${searchTerm}*']{
+            image{
+                  asset->{
+                        url
+                  }
+            },
+            _id,
+            destination,
+            postedBy->{
+                  _id,
+                  userName,
+                  image
+            },
+            location,
+            save[]{
+                  _key,
+                  postedBy->{
+                        _id,
+                        userName,
+                        image
+                  },
+            },
+      }`;
+
+      return query;
+}
 // Try to get a document of type = "user" and the id is equal to userId 
