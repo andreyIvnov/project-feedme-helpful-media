@@ -2,7 +2,7 @@ import React, { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom' ;
 
 import { client } from '../client';
-import { searchQuery } from '../utils/data';
+import { feedQuery, searchQuery } from '../utils/data';
 import  MasonryLayout from './MasonryLayout';  //For the specific rendering Css (Like in Google Image searching)
 import Spinner  from './Spinner'   // For the loading 
 
@@ -24,7 +24,11 @@ const Feed = () => {
           setLoading(false)
         })
     }else{
-
+      client.fetch(feedQuery)   //Get all of the Pins
+        .then((data)=> {
+          setPins(data);
+          setLoading(false);
+        })
     }
 
   }, [categoryId])
