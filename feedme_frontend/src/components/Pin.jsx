@@ -8,7 +8,7 @@ import { fetchUser } from '../utils/fetchUser'
 
 import { client, urlFor } from "../client" // for get a DATA (image) from  BACKEND (sanity)
 
-const Pin = ({ pin: { postedBy, image, _id, Location, destination, save} }) => {
+const Pin = ({ pin: { postedBy, image, _id, location, destination, save} }) => {
   const [postHovered, setPostHovered] = useState(false);
 
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Pin = ({ pin: { postedBy, image, _id, Location, destination, save} }) => {
   //If user saved the post before checking 
   const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.googleId))?.length //The "!!" return the boolean value (true or false)
 
-  
+  //For saving a Post on the current user
   const savePin = (id) => {
     if(!alreadySaved) {
 
@@ -57,7 +57,8 @@ const Pin = ({ pin: { postedBy, image, _id, Location, destination, save} }) => {
             className='absolute top-0 w-full h-full flex flex-col justify-between p-1 pr-2 pb-2 z-50'
             style={{height: '100%'}}
           >
-
+            
+            {/* The top of the item (Pin) */}
             <div
               className='flex items-center justify-between'
             >
@@ -88,9 +89,23 @@ const Pin = ({ pin: { postedBy, image, _id, Location, destination, save} }) => {
                   type='button' className='bg-orange-700 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outlined-non'>
                   Save
                 </button>
-              )}              
-
+              )}    
             </div>
+
+            <div className='flex justify-between items-center gap-2 w-full'>
+              {location && (
+                <a
+                  href={location}
+                  target="_blank"
+                  rel='noreferrer'
+                  className="bg-orange-700 flex items-center gap-2 text-black font-bold p-2 pl-4 pr-4 rounded-full opacity-70 hover:opacity-100 hover:shadow-md"
+                >
+                  <BsFillArrowUpRightCircleFill/>
+                  {location.length > 20 ? location.slice(8,20) : location.slice (8) }
+                </a>
+              )}
+            </div>
+
           </div>
         )}
 
