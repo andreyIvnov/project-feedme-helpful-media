@@ -1,7 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';          
 import { HiMenu } from 'react-icons/hi';
 import { AiFillCloseCircle } from 'react-icons/ai';
-import { Link, Route, Routes } from 'react-router-dom'                                                   
+import { Link, Route, Routes } from 'react-router-dom'     
+import {fetchUser} from '../utils/fetchUser'                                            
 
 // import Sidebar from '../components/Sidebar';
 // import UserProfile from '../components/UserProfile';
@@ -21,7 +22,7 @@ const Home = () => {
   const scrollRef = useRef(null);
 
   //Get user information from local storage but not the user 
-  const userInfo = localStorage.getItem('user') !== 'undefined' ? JSON.parse(localStorage.getItem('user')) : localStorage.clear() //get the user and PARSE them if they not get it may be something wrong and clear the local storage
+  const userInfo = fetchUser() //get the user and PARSE them if they not get it may be something wrong and clear the local storage
 
   //Gone getting the user from SANITY by using the useEffect
   useEffect(() => {

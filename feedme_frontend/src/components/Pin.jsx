@@ -4,14 +4,41 @@ import { v4 as uuidv4 } from 'uuid'   //For create a unique ID for each one of t
 import { MdDownloadForOffline } from 'react-icons/md'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { BsFillArrowUpRightCircleFill } from 'react-icons/bs'
+import { fetchUser } from '../utils/fetchUser'
 
 import { client, urlFor } from "../client" // for get a DATA (image) from  BACKEND (sanity)
 
-const Pin = ({ pin: { postedBy, image, _id, Location, destination } }) => {
+const Pin = ({ pin: { postedBy, image, _id, Location, destination, save} }) => {
   const [postHovered, setPostHovered] = useState(false);
-  const [savingPost, setSavingPost] = useState(false);
 
   const navigate = useNavigate();
+  const user = fetchUser()
+
+  //If user saved the post before checking 
+  const alreadySaved = !!(save?.filter((item) => item.postedBy._id === user.googleId))?.length //The "!!" return the boolean value (true or false)
+
+  
+  const savePin = (id) => {
+    if(!alreadySaved) {
+
+      client  
+        .patch(id)
+        .setIfMissing({ save: []})
+        .insert('after', 'save[-1]', [{
+          _key:uuidv4(),
+          userId: user.googleId,
+          postedBy: {
+            _type:'postedBy',
+            _ref: user.googleId
+          }
+        }])
+        .commit()
+        .then(()=> {
+          window.location.reload();
+        })
+    }
+  }
+
 
   return (
     <div className='m-2'>
@@ -46,7 +73,22 @@ const Pin = ({ pin: { postedBy, image, _id, Location, destination } }) => {
                   <MdDownloadForOffline/>
                 </a>
               </div>
-           
+
+              {/* ICON: Checking if the user save*/}
+              {alreadySaved? (   //Checking before with double !
+                <button type='button' className='bg-orange-700 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outlined-non'>                                       
+                  {save?.length}  Saved     
+                </button>
+              ):(
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    savePin(_id);
+                  }}
+                  type='button' className='bg-orange-700 opacity-70 hover:opacity-100 text-white font-bold px-5 py-1 text-base rounded-3xl hover:shadow-md outlined-non'>
+                  Save
+                </button>
+              )}              
 
             </div>
           </div>
