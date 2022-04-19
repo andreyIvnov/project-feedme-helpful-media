@@ -19,8 +19,8 @@ const Pins = ({ user}) => {
         <Routes>
           <Route path="/" element={<Feed />} />
           <Route path="/category/:categoryId" element={<Feed />} />
-          <Route path="/pin-detail" element={<PinDetail user={user} />} />
-          <Route path="/create-pin" element={<CreatePin user={user} />} />  {/* Need it for know who create a this PIN */}
+          <Route path="/pin-detail/:pinId" element={<PinDetail user={user && user} />} />
+          <Route path="/create-pin" element={<CreatePin user={user && user} />} />  {/* Need it for know who create a this PIN */}
           <Route path="/search" element={<Search searchTherm={searchTherm} setSearchTherm={setSearchTherm} />} />
         </Routes>
       </div>
