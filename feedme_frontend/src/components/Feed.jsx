@@ -8,7 +8,7 @@ import Spinner  from './Spinner'   // For the loading
 
 const Feed = () => {
   const [loading, setLoading] = useState(false);
-  const [pins, setPins] = useState(null)
+  const [pins, setPins] = useState()
   const { categoryId } = useParams();
 
   //Spinner effect every  time we change a category by Take the URL
@@ -38,7 +38,9 @@ const Feed = () => {
 
   return (
     <div>
-      {pins && <MasonryLayout pins={pins} />}
+      {
+        pins && (<MasonryLayout pins={pins} />)
+      }
     </div>
   )
 }
