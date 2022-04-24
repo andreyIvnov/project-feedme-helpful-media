@@ -35,27 +35,27 @@ export const searchQuery = (searchTerm) => {
 // Try to get a document of type = "user" and the id is equal to userId 
 
 //for get the all posts we get to query 
-export const feedQuery = `*[_type -- 'pin'] | order(_createAt desc){
+export const feedQuery = `*[_type == "pin"] | order(_createdAt desc) {
       image{
-            asset->{
-                  url
-            }
+        asset->{
+          url
+        }
       },
-      _id,
-      destination,
-      postedBy->{
+          _id,
+          destination,
+          postedBy->{
             _id,
             userName,
             image
-      },
-      location,
-      save[]{
+          },
+          location,
+          save[]{
             _key,
             postedBy->{
-                  _id,
-                  userName,
-                  image
+              _id,
+              userName,
+              image
             },
-      },
-}`
+          },
+        } `;
 
